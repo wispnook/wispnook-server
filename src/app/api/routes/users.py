@@ -46,7 +46,9 @@ async def update_me(
     response_description="Paginated list of matching users",
 )
 async def search_users(
-    query: str | None = Query(default=None, description="Search term matched against username and bio"),
+    query: str | None = Query(
+        default=None, description="Search term matched against username and bio"
+    ),
     page: int = Query(1, ge=1, description="Page number (1-indexed)"),
     size: int = Query(20, le=100, description="Number of results per page (max 100)"),
     session: AsyncSession = Depends(get_session),

@@ -102,7 +102,6 @@ def create_app() -> FastAPI:
         http_exc = to_http_exception(exc)
         return JSONResponse(status_code=http_exc.status_code, content=http_exc.detail)
 
-
     return app
 
 
