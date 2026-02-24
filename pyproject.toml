@@ -1,6 +1,6 @@
 [project]
 name = "social-network-api"
-version = "0.1.0"
+version = "0.0.0"
 description = "Production-ready social network API with FastAPI, Kafka, and PostgreSQL"
 readme = "README.md"
 requires-python = ">=3.11,<3.12"
