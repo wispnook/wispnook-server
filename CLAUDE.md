@@ -82,3 +82,20 @@ Shutdown: Graceful stop in reverse order. `RequestIdMiddleware` propagates `X-Re
 ## Commits
 
 Never add `Co-Authored-By` lines to commit messages.
+
+All commit messages must use the conventional commit format — this drives automatic semver:
+
+| Prefix | When to use | Version bump |
+|---|---|---|
+| `feat:` | New feature or endpoint | minor |
+| `fix:` | Bug fix | patch |
+| `perf:` | Performance improvement | patch |
+| `refactor:` | Code restructure, no behaviour change | none |
+| `docs:` | Documentation only | none |
+| `chore:` | Maintenance, deps, config | none |
+| `style:` | Formatting, whitespace | none |
+| `test:` | Adding or fixing tests | none |
+| `build:` | Build system or Docker changes | none |
+| `ci:` | CI/CD workflow changes | none |
+
+For breaking changes, append `!` to the prefix (e.g. `feat!:`) or add a `BREAKING CHANGE:` footer → major bump.
