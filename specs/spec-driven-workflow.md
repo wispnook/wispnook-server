@@ -20,7 +20,7 @@ decisions, and acceptance criteria throughout the feature lifecycle.
 ## Workflow
 
 ```
-1. Create a branch:  feat/<feature-name>
+1. Create a branch:  feature/<feature-name>
 2. Add a spec file:  specs/<feature-name>.md  (Status: Draft)
 3. Review and agree on the spec before writing any code
 4. Implement against the spec
