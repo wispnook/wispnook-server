@@ -28,7 +28,7 @@ def configure_tracing() -> bool:
         # Create OTLP exporter with timeout to fail fast
         span_exporter = OTLPSpanExporter(
             endpoint=settings.otel_exporter_otlp_endpoint,
-            timeout=5  # 5 second timeout to fail fast
+            timeout=5,  # 5 second timeout to fail fast
         )
         span_processor = BatchSpanProcessor(span_exporter)
         provider.add_span_processor(span_processor)

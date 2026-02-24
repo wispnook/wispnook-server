@@ -15,7 +15,10 @@ router = APIRouter(prefix="/follows", tags=["follows"])
     status_code=204,
     dependencies=[Depends(rate_limiter)],
     summary="Follow a user",
-    description="Start following another user. Following yourself or a user you already follow has no effect.",
+    description=(
+        "Start following another user. "
+        "Following yourself or a user you already follow has no effect."
+    ),
 )
 async def follow_user(
     user_id: str,

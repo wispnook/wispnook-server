@@ -15,7 +15,10 @@ router = APIRouter(prefix="/feed", tags=["feed"])
     "",
     response_model=FeedResponse,
     summary="Get timeline feed",
-    description="Returns a paginated list of posts from users the authenticated user follows, ordered by recency. Results are cached per user for 60 seconds.",
+    description=(
+        "Returns a paginated list of posts from users the authenticated user follows, "
+        "ordered by recency. Results are cached per user for 60 seconds."
+    ),
     response_description="Paginated feed of posts from followed users",
 )
 async def get_feed(

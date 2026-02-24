@@ -14,7 +14,10 @@ router = APIRouter(prefix="/users", tags=["users"])
     "/me",
     response_model=UserOut,
     summary="Get current user",
-    description="Returns the full profile of the authenticated user, including private fields such as email and role.",
+    description=(
+        "Returns the full profile of the authenticated user, "
+        "including private fields such as email and role."
+    ),
     response_description="Authenticated user's profile",
 )
 async def get_me(user=Depends(get_current_user)):
@@ -25,7 +28,10 @@ async def get_me(user=Depends(get_current_user)):
     "/me",
     response_model=UserOut,
     summary="Update current user",
-    description="Update one or more profile fields (username, bio) for the authenticated user. Only provided fields are changed.",
+    description=(
+        "Update one or more profile fields (username, bio) for the authenticated user. "
+        "Only provided fields are changed."
+    ),
     response_description="Updated user profile",
 )
 async def update_me(
@@ -42,11 +48,17 @@ async def update_me(
     "",
     response_model=UserSearchResponse,
     summary="Search users",
-    description="Full-text search over usernames and bios. Returns a paginated list of public profiles. Leave `query` empty to list all users.",
+    description=(
+        "Full-text search over usernames and bios. "
+        "Returns a paginated list of public profiles. "
+        "Leave `query` empty to list all users."
+    ),
     response_description="Paginated list of matching users",
 )
 async def search_users(
-    query: str | None = Query(default=None, description="Search term matched against username and bio"),
+    query: str | None = Query(
+        default=None, description="Search term matched against username and bio"
+    ),
     page: int = Query(1, ge=1, description="Page number (1-indexed)"),
     size: int = Query(20, le=100, description="Number of results per page (max 100)"),
     session: AsyncSession = Depends(get_session),
@@ -65,7 +77,9 @@ async def search_users(
     "/{user_id}",
     response_model=UserPublic,
     summary="Get user profile",
-    description="Returns the public profile of any user by their UUID. Does not require authentication.",
+    description=(
+        "Returns the public profile of any user by their UUID. " "Does not require authentication."
+    ),
     response_description="Public user profile",
 )
 async def get_user(user_id: str, session: AsyncSession = Depends(get_session)):
