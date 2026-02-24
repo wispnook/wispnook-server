@@ -8,7 +8,10 @@ router = APIRouter(prefix="/health", tags=["health"])
 @router.get(
     "/liveness",
     summary="Liveness probe",
-    description="Returns 200 when the application process is running. Used by container orchestrators to detect crashes.",
+    description=(
+        "Returns 200 when the application process is running. "
+        "Used by container orchestrators to detect crashes."
+    ),
     response_description="Static OK status",
 )
 async def liveness():
@@ -18,7 +21,10 @@ async def liveness():
 @router.get(
     "/readiness",
     summary="Readiness probe",
-    description="Returns 200 when the application is ready to serve traffic. Used by container orchestrators to gate request routing.",
+    description=(
+        "Returns 200 when the application is ready to serve traffic. "
+        "Used by container orchestrators to gate request routing."
+    ),
     response_description="Static ready status",
 )
 async def readiness():

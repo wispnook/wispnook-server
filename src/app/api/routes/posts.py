@@ -19,7 +19,10 @@ router = APIRouter(prefix="/posts", tags=["posts"])
     status_code=201,
     dependencies=[Depends(rate_limiter)],
     summary="Create a post",
-    description="Publish a new text post with an optional media URL. Idempotent: supply an `Idempotency-Key` header to prevent duplicate submissions on retry.",
+    description=(
+        "Publish a new text post with an optional media URL. "
+        "Idempotent: supply an `Idempotency-Key` header to prevent duplicate submissions on retry."
+    ),
     response_description="The created post with its current like count",
 )
 async def create_post(
@@ -70,7 +73,10 @@ async def get_post(
     "",
     response_model=PostListResponse,
     summary="List posts",
-    description="Returns a paginated list of posts. Optionally filter by `author_id` to retrieve posts from a specific user.",
+    description=(
+        "Returns a paginated list of posts. "
+        "Optionally filter by `author_id` to retrieve posts from a specific user."
+    ),
     response_description="Paginated list of posts with like counts",
 )
 async def list_posts(
@@ -104,7 +110,9 @@ async def list_posts(
     status_code=204,
     dependencies=[Depends(rate_limiter)],
     summary="Delete a post",
-    description="Permanently delete a post. Only the post's author or an admin can perform this action.",
+    description=(
+        "Permanently delete a post. " "Only the post's author or an admin can perform this action."
+    ),
 )
 async def delete_post(
     post_id: str,
@@ -120,7 +128,10 @@ async def delete_post(
     status_code=204,
     dependencies=[Depends(rate_limiter)],
     summary="Like a post",
-    description="Add a like to a post on behalf of the authenticated user. Liking an already-liked post has no effect.",
+    description=(
+        "Add a like to a post on behalf of the authenticated user. "
+        "Liking an already-liked post has no effect."
+    ),
 )
 async def like_post(
     post_id: str,
@@ -137,7 +148,10 @@ async def like_post(
     status_code=204,
     dependencies=[Depends(rate_limiter)],
     summary="Unlike a post",
-    description="Remove the authenticated user's like from a post. Unliking a post that wasn't liked has no effect.",
+    description=(
+        "Remove the authenticated user's like from a post. "
+        "Unliking a post that wasn't liked has no effect."
+    ),
 )
 async def unlike_post(
     post_id: str,
@@ -152,7 +166,10 @@ async def unlike_post(
 @router.get(
     "/{post_id}/likes/count",
     summary="Get like count",
-    description="Returns the current like count for a post. The count is served from a Redis cache for performance.",
+    description=(
+        "Returns the current like count for a post. "
+        "The count is served from a Redis cache for performance."
+    ),
     response_description="Object containing the post ID and its like count",
 )
 async def like_count(

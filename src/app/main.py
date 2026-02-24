@@ -64,7 +64,8 @@ def create_app() -> FastAPI:
         title="Social Network API",
         version="0.1.0",
         description=(
-            "Production-ready social network backend built with FastAPI, PostgreSQL, Redis, and Kafka.\n\n"
+            "Production-ready social network backend built with FastAPI, "
+            "PostgreSQL, Redis, and Kafka.\n\n"
             "## Authentication\n\n"
             "Most endpoints require a Bearer JWT token. Obtain one via `POST /auth/login` or "
             "`POST /auth/register`, then pass it as:\n\n"

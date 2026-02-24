@@ -15,7 +15,10 @@ router = APIRouter(prefix="/comments", tags=["comments"])
     status_code=204,
     dependencies=[Depends(rate_limiter)],
     summary="Delete a comment",
-    description="Permanently delete a comment. Only the comment's author or an admin can perform this action.",
+    description=(
+        "Permanently delete a comment. "
+        "Only the comment's author or an admin can perform this action."
+    ),
 )
 async def delete_comment(
     comment_id: str,
