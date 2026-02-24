@@ -64,7 +64,19 @@ cp .env.example .env
    ```bash
    docker-compose up --build
    ```
-3. API available at `http://localhost:8000`. OpenAPI docs at `/docs` or `/redoc`.
+3. API available at `http://localhost:8000`.
+
+### API Documentation
+
+FastAPI serves interactive documentation automatically:
+
+| URL | Interface |
+|-----|-----------|
+| `http://localhost:8000/docs` | Swagger UI — try endpoints directly in the browser |
+| `http://localhost:8000/redoc` | ReDoc — clean, readable reference |
+| `http://localhost:8000/openapi.json` | Raw OpenAPI 3.1 schema |
+
+To authenticate in Swagger UI, click **Authorize** and enter `Bearer <access_token>` obtained from `POST /auth/login`.
 
 ### Database Migrations
 

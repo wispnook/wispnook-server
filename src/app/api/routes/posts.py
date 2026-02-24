@@ -13,7 +13,15 @@ from app.services.post_service import PostService
 router = APIRouter(prefix="/posts", tags=["posts"])
 
 
-@router.post("", response_model=PostOut, status_code=201, dependencies=[Depends(rate_limiter)])
+@router.post(
+    "",
+    response_model=PostOut,
+    status_code=201,
+    dependencies=[Depends(rate_limiter)],
+    summary="Create a post",
+    description="Publish a new text post with an optional media URL. Idempotent: supply an `Idempotency-Key` header to prevent duplicate submissions on retry.",
+    response_description="The created post with its current like count",
+)
 async def create_post(
     payload: PostCreate,
     session: AsyncSession = Depends(get_session),
@@ -34,7 +42,13 @@ async def create_post(
     )
 
 
-@router.get("/{post_id}", response_model=PostOut)
+@router.get(
+    "/{post_id}",
+    response_model=PostOut,
+    summary="Get a post",
+    description="Returns a single post by its UUID, including the current like count.",
+    response_description="Post detail with like count",
+)
 async def get_post(
     post_id: str, session: AsyncSession = Depends(get_session), redis=Depends(get_redis)
 ):
@@ -52,11 +66,17 @@ async def get_post(
     )
 
 
-@router.get("", response_model=PostListResponse)
+@router.get(
+    "",
+    response_model=PostListResponse,
+    summary="List posts",
+    description="Returns a paginated list of posts. Optionally filter by `author_id` to retrieve posts from a specific user.",
+    response_description="Paginated list of posts with like counts",
+)
 async def list_posts(
-    page: int = Query(1, ge=1),
-    size: int = Query(20, le=100),
-    author_id: str | None = Query(default=None),
+    page: int = Query(1, ge=1, description="Page number (1-indexed)"),
+    size: int = Query(20, le=100, description="Number of results per page (max 100)"),
+    author_id: str | None = Query(default=None, description="Filter posts by author UUID"),
     session: AsyncSession = Depends(get_session),
     redis=Depends(get_redis),
 ):
@@ -79,7 +99,13 @@ async def list_posts(
     return PostListResponse(items=posts, page=page, size=size, total=total)
 
 
-@router.delete("/{post_id}", status_code=204, dependencies=[Depends(rate_limiter)])
+@router.delete(
+    "/{post_id}",
+    status_code=204,
+    dependencies=[Depends(rate_limiter)],
+    summary="Delete a post",
+    description="Permanently delete a post. Only the post's author or an admin can perform this action.",
+)
 async def delete_post(
     post_id: str,
     session: AsyncSession = Depends(get_session),
@@ -89,7 +115,13 @@ async def delete_post(
     await service.delete_post(post_id, str(user.id), user.role == "admin")
 
 
-@router.post("/{post_id}/likes", status_code=204, dependencies=[Depends(rate_limiter)])
+@router.post(
+    "/{post_id}/likes",
+    status_code=204,
+    dependencies=[Depends(rate_limiter)],
+    summary="Like a post",
+    description="Add a like to a post on behalf of the authenticated user. Liking an already-liked post has no effect.",
+)
 async def like_post(
     post_id: str,
     session: AsyncSession = Depends(get_session),
@@ -100,7 +132,13 @@ async def like_post(
     await service.like_post(post_id, str(user.id), redis)
 
 
-@router.delete("/{post_id}/likes", status_code=204, dependencies=[Depends(rate_limiter)])
+@router.delete(
+    "/{post_id}/likes",
+    status_code=204,
+    dependencies=[Depends(rate_limiter)],
+    summary="Unlike a post",
+    description="Remove the authenticated user's like from a post. Unliking a post that wasn't liked has no effect.",
+)
 async def unlike_post(
     post_id: str,
     session: AsyncSession = Depends(get_session),
@@ -111,7 +149,12 @@ async def unlike_post(
     await service.unlike_post(post_id, str(user.id), redis)
 
 
-@router.get("/{post_id}/likes/count")
+@router.get(
+    "/{post_id}/likes/count",
+    summary="Get like count",
+    description="Returns the current like count for a post. The count is served from a Redis cache for performance.",
+    response_description="Object containing the post ID and its like count",
+)
 async def like_count(
     post_id: str, session: AsyncSession = Depends(get_session), redis=Depends(get_redis)
 ):
@@ -125,6 +168,9 @@ async def like_count(
     response_model=CommentOut,
     status_code=201,
     dependencies=[Depends(rate_limiter)],
+    summary="Add a comment",
+    description="Post a comment on behalf of the authenticated user.",
+    response_description="The created comment",
 )
 async def add_comment(
     post_id: str,
@@ -143,11 +189,17 @@ async def add_comment(
     )
 
 
-@router.get("/{post_id}/comments", response_model=CommentListResponse)
+@router.get(
+    "/{post_id}/comments",
+    response_model=CommentListResponse,
+    summary="List comments",
+    description="Returns a paginated list of comments for a post, ordered by creation time.",
+    response_description="Paginated list of comments",
+)
 async def list_comments(
     post_id: str,
-    page: int = Query(1, ge=1),
-    size: int = Query(20, le=100),
+    page: int = Query(1, ge=1, description="Page number (1-indexed)"),
+    size: int = Query(20, le=100, description="Number of results per page (max 100)"),
     session: AsyncSession = Depends(get_session),
 ):
     service = CommentService(session)

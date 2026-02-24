@@ -60,7 +60,23 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title="Social Network API", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(
+        title="Social Network API",
+        version="0.1.0",
+        description=(
+            "Production-ready social network backend built with FastAPI, PostgreSQL, Redis, and Kafka.\n\n"
+            "## Authentication\n\n"
+            "Most endpoints require a Bearer JWT token. Obtain one via `POST /auth/login` or "
+            "`POST /auth/register`, then pass it as:\n\n"
+            "```\nAuthorization: Bearer <access_token>\n```\n\n"
+            "## Rate Limiting\n\n"
+            "Write endpoints are rate-limited per IP (default: 60 requests/minute). "
+            "Exceeding the limit returns `429 Too Many Requests`.\n\n"
+            "## Pagination\n\n"
+            "All list endpoints accept `page` (1-indexed) and `size` (max 100) query parameters."
+        ),
+        lifespan=lifespan,
+    )
     app.add_middleware(RequestIdMiddleware)
     app.add_middleware(
         CORSMiddleware,

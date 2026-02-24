@@ -72,6 +72,16 @@ Shutdown: Graceful stop in reverse order. `RequestIdMiddleware` propagates `X-Re
 - `tests/contracts/` — Pydantic event schema backward-compatibility tests.
 - Shared fixtures in `tests/conftest.py`.
 
+### API Documentation
+
+FastAPI auto-generates interactive docs from endpoint metadata:
+
+- `http://localhost:8000/docs` — Swagger UI
+- `http://localhost:8000/redoc` — ReDoc
+- `http://localhost:8000/openapi.json` — raw schema
+
+Every new endpoint **must** include `summary`, `description`, and `response_description` in its route decorator. Query parameters must include a `description` in their `Query(...)` call.
+
 ### Code Style
 
 - Line length: 100 characters (black, flake8, isort)

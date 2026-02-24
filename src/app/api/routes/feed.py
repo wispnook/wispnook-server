@@ -11,7 +11,13 @@ from app.services.feed_service import FeedService
 router = APIRouter(prefix="/feed", tags=["feed"])
 
 
-@router.get("", response_model=FeedResponse)
+@router.get(
+    "",
+    response_model=FeedResponse,
+    summary="Get timeline feed",
+    description="Returns a paginated list of posts from users the authenticated user follows, ordered by recency. Results are cached per user for 60 seconds.",
+    response_description="Paginated feed of posts from followed users",
+)
 async def get_feed(
     page: int = Query(1, ge=1),
     size: int = Query(20, le=100),
