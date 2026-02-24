@@ -89,6 +89,27 @@ Every new endpoint **must** include `summary`, `description`, and `response_desc
 - mypy configured for strict async checking
 - All DB/Redis/Kafka operations are async
 
+## Spec-Driven Workflow
+
+Every non-trivial feature must start with a spec before any code is written.
+
+1. Create a branch: `feature/<feature-name>` (or use `/new-feature` below)
+2. Add a spec: `specs/<feature-name>.md` (Status: Draft)
+3. Agree on the spec before writing any code
+4. Implement against the spec
+5. Update spec status → Implemented
+6. Open PR — spec is included in the diff
+
+Each spec must include: **Status**, **Overview**, **Goals**, **Non-goals**, **Design**, **Acceptance criteria**, and **Open questions**. Use `specs/template.md` as the starting point.
+
+See `specs/spec-driven-workflow.md` for the full reference.
+
+### `/new-feature` command
+
+Run `/new-feature <short description>` to automatically:
+- Create a `feature/<slug>` branch
+- Generate a populated spec file in `specs/`
+
 ## Commits
 
 Never add `Co-Authored-By` lines to commit messages.
